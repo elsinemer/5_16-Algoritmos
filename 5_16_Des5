@@ -1,0 +1,59 @@
+class Nodo:
+    def __init__(self, promedio, nombre):
+        self.promedio = promedio
+        self.nombre = nombre
+        self.izquierdo = None
+        self.derecho = None
+
+class ArbolBinarioBusqueda:
+    def __init__(self):
+        self.raiz = None
+
+    # Insertar un nodo en el árbol binario de búsqueda
+    def insertar(self, promedio, nombre):
+        if self.raiz is None:
+            self.raiz = Nodo(promedio, nombre)
+        else:
+            self._insertar_recursivo(self.raiz, promedio, nombre)
+
+    def _insertar_recursivo(self, nodo_actual, promedio, nombre):
+        if promedio < nodo_actual.promedio:
+            if nodo_actual.izquierdo is None:
+                nodo_actual.izquierdo = Nodo(promedio, nombre)
+            else:
+                self._insertar_recursivo(nodo_actual.izquierdo, promedio, nombre)
+        else:
+            if nodo_actual.derecho is None:
+                nodo_actual.derecho = Nodo(promedio, nombre)
+            else:
+                self._insertar_recursivo(nodo_actual.derecho, promedio, nombre)
+
+    # Recorrido inorden para mostrar los estudiantes en orden ascendente
+    def recorrido_inorden(self):
+        self._recorrido_inorden_recursivo(self.raiz)
+
+    def _recorrido_inorden_recursivo(self, nodo_actual):
+        if nodo_actual is not None:
+            self._recorrido_inorden_recursivo(nodo_actual.izquierdo)
+            print(f"{nodo_actual.nombre}: {nodo_actual.promedio}")
+            self._recorrido_inorden_recursivo(nodo_actual.derecho)
+
+# Ejemplo de uso
+# Conjunto de estudiantes y sus promedios
+estudiantes = [
+    ("Ana", 88),
+    ("Elsi", 92),
+    ("Juna", 75),
+    ("Carlos", 85)
+]
+
+# Creamos el árbol binario de búsqueda
+arbol = ArbolBinarioBusqueda()
+
+# Insertamos los estudiantes en el árbol
+for nombre, promedio in estudiantes:
+    arbol.insertar(promedio, nombre)
+
+# Mostramos los estudiantes en orden ascendente de rendimiento académico
+print("Estudiantes en orden ascendente de rendimiento académico:")
+arbol.recorrido_inorden()
